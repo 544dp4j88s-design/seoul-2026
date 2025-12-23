@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -301,8 +301,13 @@
             document.getElementById('twdResult').value = v ? '≈ NT$ ' + Math.round(v/RATE).toLocaleString() : '';
         }
 
+        // 預設清單中新增了 GitHub Pages 檢查項
         let prep = JSON.parse(localStorage.getItem('seoul_v15_prep')) || [
-            {t: "護照與 K-ETA", c: true}, {t: "WOWPASS 卡", c: false}, {t: "220V 轉接頭", c: false}, {t: "網卡 eSIM", c: false}
+            {t: "護照與 K-ETA", c: true}, 
+            {t: "WOWPASS 卡", c: false}, 
+            {t: "220V 轉接頭", c: false}, 
+            {t: "網卡 eSIM", c: false},
+            {t: "GitHub Settings > Pages 啟用 (查看網址)", c: false}
         ];
         function updatePrepUI() {
             const list = document.getElementById('checkList'); list.innerHTML = '';
