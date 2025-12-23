@@ -11,14 +11,14 @@
         :root { --safe-top: env(safe-area-inset-top); --safe-bottom: env(safe-area-inset-bottom); --primary-brown: #A68F80; }
         body { font-family: 'Noto Sans TC', sans-serif; background-color: #FDFBF9; color: #5D4E46; margin: 0; padding: 0; overflow: hidden; }
         header { padding-top: calc(1rem + var(--safe-top)); background: #EBE3DB; border-bottom: 1px solid #D9CFC7; text-align: center; padding-bottom: 1rem; }
-        .main-scroll-area { height: calc(100vh - 160px - var(--safe-top) - var(--safe-bottom)); overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 1rem; padding-bottom: 80px; }
+        .main-scroll-area { height: calc(100vh - 160px - var(--safe-top) - var(--safe-bottom)); overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 1rem; padding-bottom: 100px; }
         .tab-content { display: none; }
         .active-content { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         .active-tab { color: #8A7A70 !important; border-bottom: 2px solid var(--primary-brown); }
         .cream-card { background: white; border: 1px solid #EBE3DB; border-radius: 1.25rem; padding: 1.25rem; box-shadow: 0 4px 12px rgba(232, 222, 213, 0.05); margin-bottom: 1rem; }
         .day-header { border-left: 4px solid var(--primary-brown); padding-left: 12px; margin-bottom: 15px; }
-        .supper-box { background-color: #FAF7F2; border: 1px dashed #D9CFC7; border-radius: 1rem; padding: 0.75rem; margin-top: 0.75rem; }
+        .supper-box { background-color: #FAF7F2; border: 1px dashed #D9CFC7; border-radius: 1rem; padding: 1rem; margin-top: 1rem; }
         .btn-milk-tea { background-color: var(--primary-brown); color: white; border-radius: 0.75rem; }
         #callModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
         .dot-flashing { position: relative; width: 6px; height: 6px; border-radius: 5px; background-color: var(--primary-brown); animation: dot-flashing 1s infinite linear alternate; animation-delay: .5s; }
@@ -50,56 +50,85 @@
                 <div id="weatherDisplay" class="text-[11px] text-blue-800 leading-relaxed">正在分析 2026/03 天氣概況...</div>
             </div>
 
-            <!-- DAY 1 -->
+            <!-- DAY 1-5 行程 -->
             <div class="cream-card">
                 <div class="day-header"><h2 class="text-lg font-bold text-[#8A7A70]">DAY 1 <span class="text-xs ml-1">03/15 (日)</span></h2></div>
                 <div class="space-y-3 text-sm">
                     <p>✈️ <strong>11:30</strong> 抵達仁川機場 (ICN)</p>
-                    <p>🚌 <strong>交通</strong> 6001 巴士至 Euljiro Co-op Residence</p>
+                    <p>🚌 <strong>交通</strong> 6001 巴士至東大門飯店</p>
                     <p>🥙 <strong>下午</strong> 【廣藏市場】生牛肉、綠豆餅</p>
-                    <p>🍲 <strong>晚餐</strong> 【陳玉華一隻雞】 <button onclick="triggerCall('陳玉華一隻雞', '+82222759666')" class="text-blue-500 underline text-xs">撥打</button></p>
-                    <p>🏙️ <strong>晚上</strong> 【DDP 設計廣場】散步</p>
+                    <p>🍲 <strong>晚餐</strong> 【陳玉華一隻雞】 <button onclick="triggerCall('陳玉華一隻雞', '+82222759666')" class="text-blue-500 underline text-[10px] ml-1">撥打</button></p>
                 </div>
             </div>
 
-            <!-- DAY 2 -->
             <div class="cream-card">
                 <div class="day-header"><h2 class="text-lg font-bold text-[#8A7A70]">DAY 2 <span class="text-xs ml-1">03/16 (一)</span></h2></div>
                 <div class="space-y-3 text-sm">
                     <p>⛩️ <strong>上午</strong> 【景福宮】韓服體驗</p>
-                    <p>🥣 <strong>午餐</strong> 土俗村參雞湯 <button onclick="triggerCall('土俗村參雞湯', '+8227377444')" class="text-blue-500 underline text-xs">撥打</button></p>
-                    <p>🏘️ <strong>下午</strong> 北村韓屋村 ➔ 三清洞藍瓶子</p>
-                    <p>🗼 <strong>晚上</strong> 【南山首爾塔】觀賞夜景</p>
+                    <p>🥣 <strong>午餐</strong> 【土俗村參雞湯】 <button onclick="triggerCall('土俗村參雞湯', '+8227377444')" class="text-blue-500 underline text-[10px] ml-1">撥打</button></p>
+                    <p>🏘️ <strong>下午</strong> 北村韓屋村 ➔ 三清洞</p>
+                    <p>🗼 <strong>晚上</strong> 【南山首爾塔】夜景</p>
                 </div>
             </div>
 
-            <!-- DAY 3 -->
             <div class="cream-card">
                 <div class="day-header"><h2 class="text-lg font-bold text-[#8A7A70]">DAY 3 <span class="text-xs ml-1">03/17 (二)</span></h2></div>
                 <div class="space-y-3 text-sm">
                     <p>🧺 <strong>上午</strong> 【望遠市場】美食探險</p>
-                    <p>🎸 <strong>下午</strong> 【弘大商圈】逛街與街頭表演</p>
-                    <p>🔥 <strong>晚餐</strong> 弘大【小豬存錢筒】 <button onclick="triggerCall('小豬存錢筒', '+8223236292')" class="text-blue-500 underline text-xs">撥打</button></p>
+                    <p>🎸 <strong>下午</strong> 【弘大商圈】逛街</p>
+                    <p>🔥 <strong>晚餐</strong> 【小豬存錢筒】烤肉 <button onclick="triggerCall('小豬存錢筒', '+8223236292')" class="text-blue-500 underline text-[10px] ml-1">撥打</button></p>
                 </div>
             </div>
 
-            <!-- DAY 4 -->
             <div class="cream-card">
                 <div class="day-header"><h2 class="text-lg font-bold text-[#8A7A70]">DAY 4 <span class="text-xs ml-1">03/18 (三)</span></h2></div>
                 <div class="space-y-3 text-sm">
-                    <p>🥯 <strong>上午</strong> 【益善洞】韓屋咖啡廳 (清水堂)</p>
-                    <p>💄 <strong>下午</strong> 【明洞商圈】美妝、Olive Young</p>
-                    <p>🥩 <strong>晚餐</strong> 【荒謬的生肉】 <button onclick="triggerCall('荒謬的生肉', '+8227788882')" class="text-blue-500 underline text-xs">撥打</button></p>
+                    <p>🥯 <strong>上午</strong> 【益善洞】韓屋咖啡廳</p>
+                    <p>💄 <strong>下午</strong> 【明洞商圈】購物、Olive Young</p>
+                    <p>🥩 <strong>晚餐</strong> 【荒謬的生肉】烤肉 <button onclick="triggerCall('荒謬的生肉', '+8227788882')" class="text-blue-500 underline text-[10px] ml-1">撥打</button></p>
                 </div>
             </div>
 
-            <!-- DAY 5 -->
             <div class="cream-card">
                 <div class="day-header"><h2 class="text-lg font-bold text-[#8A7A70]">DAY 5 <span class="text-xs ml-1">03/19 (四)</span></h2></div>
                 <div class="space-y-3 text-sm">
-                    <p>🎁 <strong>上午</strong> 【南大門市場】草莓乾、伴手禮</p>
+                    <p>🎁 <strong>上午</strong> 【南大門市場】草莓乾</p>
                     <p>🍜 <strong>午餐</strong> 南大門刀削麵一條街</p>
                     <p>✈️ <strong>20:15</strong> 仁川起飛回台</p>
+                </div>
+            </div>
+
+            <!-- 宵夜推薦區塊 -->
+            <div class="supper-box">
+                <h3 class="text-sm font-bold text-[#A68F80] mb-3"><i class="fa fa-moon mr-2"></i>深夜消夜推薦</h3>
+                <div class="space-y-4">
+                    <div class="border-b border-[#EBE3DB] pb-3">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs font-bold">橋村炸雞 (東大門1號店)</p>
+                                <p class="text-[10px] text-gray-400 mt-1">24小時營業，蜂蜜/大蒜口味推薦</p>
+                            </div>
+                            <button onclick="triggerCall('橋村炸雞', '+82222319337')" class="text-[10px] text-blue-500 font-bold">撥打</button>
+                        </div>
+                    </div>
+                    <div class="border-b border-[#EBE3DB] pb-3">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs font-bold">孔陵一隻雞 (東大門)</p>
+                                <p class="text-[10px] text-gray-400 mt-1">最後點餐 22:30，湯頭鮮甜</p>
+                            </div>
+                            <button onclick="triggerCall('孔陵一隻雞', '+82222696069')" class="text-[10px] text-blue-500 font-bold">撥打</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs font-bold">東大門獵奇辣炒年糕</p>
+                                <p class="text-[10px] text-gray-400 mt-1">營業至凌晨，辣度極高請小心</p>
+                            </div>
+                            <button onclick="triggerCall('獵奇辣炒年糕', '+82222348591')" class="text-[10px] text-blue-500 font-bold">撥打</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -149,7 +178,6 @@
                 </div>
             </div>
 
-            <!-- 常用語分類 -->
             <div class="cream-card">
                 <h3 class="text-sm font-bold mb-4 flex items-center"><i class="fa fa-comments mr-2 text-orange-400"></i> 旅遊常用對話</h3>
                 <div class="space-y-4">
@@ -166,7 +194,6 @@
                         <p class="text-[10px] font-bold text-gray-400 mb-2">🛍️ 購物與退稅</p>
                         <div class="flex flex-wrap gap-2">
                             <button onclick="quickTranslate('請問可以退稅嗎？')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">可以退稅嗎？</button>
-                            <button onclick="quickTranslate('有新的商品嗎？')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">有新品嗎？</button>
                             <button onclick="quickTranslate('可以試穿嗎？')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">可以試穿嗎？</button>
                         </div>
                     </div>
@@ -174,18 +201,9 @@
                         <p class="text-[10px] font-bold text-gray-400 mb-2">🏨 交通與飯店</p>
                         <div class="flex flex-wrap gap-2">
                             <button onclick="quickTranslate('請問洗手間在哪裡？')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">洗手間在哪？</button>
-                            <button onclick="quickTranslate('請幫我寄放行李。')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">寄放行李</button>
-                            <button onclick="quickTranslate('我要辦理入住手續。')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">我要 Check-in</button>
+                            <button onclick="quickTranslate('我要辦理入住手續。')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">辦理入住</button>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="cream-card">
-                <h3 class="text-sm font-bold mb-3 text-red-700">緊急電話</h3>
-                <div class="grid grid-cols-2 gap-2 text-[10px]">
-                    <button onclick="triggerCall('觀光翻譯', '1330')" class="p-3 border rounded-xl font-bold">1330 翻譯</button>
-                    <button onclick="triggerCall('代表處', '+8227397711')" class="p-3 border rounded-xl font-bold">代表處(緊急)</button>
                 </div>
             </div>
         </div>
