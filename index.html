@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>首爾旅遊攻略 V15.3 - 手機版優化</title>
+    <title>首爾旅遊攻略 V15.4 - 緊急聯絡版</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -12,16 +12,14 @@
         body { font-family: 'Noto Sans TC', sans-serif; background-color: #FDFBF9; color: #5D4E46; margin: 0; padding: 0; overflow: hidden; }
         header { padding-top: calc(1rem + var(--safe-top)); background: #EBE3DB; border-bottom: 1px solid #D9CFC7; text-align: center; padding-bottom: 1rem; }
         
-        /* 修正手機版滾動區域，增加底部邊距避免導覽列遮擋 */
         .main-scroll-area { 
             height: calc(100vh - 80px - var(--safe-top) - var(--safe-bottom)); 
             overflow-y: auto; 
             -webkit-overflow-scrolling: touch; 
             padding: 1rem; 
-            padding-bottom: 140px; /* 這裡增加邊距 */
+            padding-bottom: 140px; 
         }
         
-        /* 隱藏滾動條但保留功能 */
         .main-scroll-area::-webkit-scrollbar { display: none; }
 
         .tab-content { display: none; }
@@ -32,13 +30,15 @@
         .cream-card { background: white; border: 1px solid #EBE3DB; border-radius: 1.25rem; padding: 1.25rem; box-shadow: 0 4px 12px rgba(232, 222, 213, 0.05); margin-bottom: 1rem; }
         .day-header { border-left: 4px solid var(--primary-brown); padding-left: 12px; margin-bottom: 15px; }
         
-        /* 宵夜推薦區塊樣式 */
-        .supper-box { background-color: #FAF7F2; border: 1px dashed #D9CFC7; border-radius: 1rem; padding: 1rem; margin-top: 1rem; margin-bottom: 2rem; }
+        /* 每日宵夜區塊樣式 */
+        .supper-item { background-color: #FAF7F2; border: 1px dashed #D9CFC7; border-radius: 1rem; padding: 0.75rem; margin-top: 1rem; }
+        
+        /* 緊急聯絡樣式 */
+        .emergency-box { background-color: #FFF5F5; border: 1px solid #FED7D7; border-radius: 1rem; padding: 0.75rem; margin-bottom: 1rem; }
         
         .btn-milk-tea { background-color: var(--primary-brown); color: white; border-radius: 0.75rem; }
         #callModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
         
-        /* 加載動畫 */
         .dot-flashing { position: relative; width: 6px; height: 6px; border-radius: 5px; background-color: var(--primary-brown); animation: dot-flashing 1s infinite linear alternate; animation-delay: .5s; }
         .dot-flashing::before, .dot-flashing::after { content: ''; display: inline-block; position: absolute; top: 0; }
         .dot-flashing::before { left: -12px; width: 6px; height: 6px; border-radius: 5px; background-color: var(--primary-brown); animation: dot-flashing 1s infinite alternate; animation-delay: 0s; }
@@ -59,7 +59,8 @@
     <main class="main-scroll-area" id="mainScroll">
         <!-- TAB 1: 行程 -->
         <div id="itinerary" class="tab-content active-content">
-            <div class="cream-card bg-[#E3F2FD] border-none">
+            <!-- 天氣預報 -->
+            <div class="cream-card bg-[#E3F2FD] border-none mb-3">
                 <div class="flex justify-between items-center mb-2">
                     <h3 class="text-sm font-bold text-[#1976D2]"><i class="fa fa-cloud-sun mr-2"></i>即時穿衣與天氣預報</h3>
                     <button onclick="getAIWeather()" class="text-[10px] bg-white px-2 py-1 rounded text-blue-600 font-bold">更新</button>
@@ -68,7 +69,30 @@
                 <div id="weatherDisplay" class="text-[11px] text-blue-800 leading-relaxed">正在分析 2026/03 天氣概況...</div>
             </div>
 
-            <!-- DAY 1-5 行程內容 -->
+            <!-- 緊急聯絡電話 (新增) -->
+            <div class="emergency-box">
+                <h3 class="text-[11px] font-bold text-red-600 mb-2 flex items-center"><i class="fa fa-phone-alt mr-2"></i>緊急聯絡電話</h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="triggerCall('代表處緊急電話', '+821038138852')" class="flex flex-col items-center bg-white p-2 rounded-lg border border-red-100">
+                        <span class="text-[9px] text-gray-500">駐韓代表處</span>
+                        <span class="text-[10px] font-bold text-red-500">010-3813-8852</span>
+                    </button>
+                    <button onclick="triggerCall('警消專線', '119')" class="flex flex-col items-center bg-white p-2 rounded-lg border border-red-100">
+                        <span class="text-[9px] text-gray-500">報警/急救</span>
+                        <span class="text-[10px] font-bold text-red-500">112 / 119</span>
+                    </button>
+                    <button onclick="triggerCall('觀光諮詢', '1330')" class="flex flex-col items-center bg-white p-2 rounded-lg border border-red-100">
+                        <span class="text-[9px] text-gray-500">觀光諮詢(中文)</span>
+                        <span class="text-[10px] font-bold text-blue-500">1330</span>
+                    </button>
+                    <button onclick="triggerCall('失物招領', '182')" class="flex flex-col items-center bg-white p-2 rounded-lg border border-red-100">
+                        <span class="text-[9px] text-gray-500">遺失物中心</span>
+                        <span class="text-[10px] font-bold text-gray-600">182</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- DAY 1 -->
             <div class="cream-card">
                 <div class="day-header"><h2 class="text-lg font-bold text-[#8A7A70]">DAY 1 <span class="text-xs ml-1">03/15 (日)</span></h2></div>
                 <div class="space-y-3 text-sm">
@@ -77,8 +101,20 @@
                     <p>🥙 <strong>下午</strong> 【廣藏市場】生牛肉、綠豆餅</p>
                     <p>🍲 <strong>晚餐</strong> 【陳玉華一隻雞】 <button onclick="triggerCall('陳玉華一隻雞', '+82222759666')" class="text-blue-500 underline text-[10px] ml-1">撥打</button></p>
                 </div>
+                <!-- 宵夜推薦 1 -->
+                <div class="supper-item">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-[11px] font-bold text-[#A68F80]"><i class="fa fa-moon mr-1"></i> 今日宵夜推薦</p>
+                            <p class="text-xs font-bold mt-1">橋村炸雞 (東大門1號店)</p>
+                            <p class="text-[10px] text-gray-400">24小時營業，蜂蜜口味推薦</p>
+                        </div>
+                        <button onclick="triggerCall('橋村炸雞', '+82222319337')" class="text-[10px] text-blue-500 font-bold border border-blue-200 px-2 py-1 rounded">撥打</button>
+                    </div>
+                </div>
             </div>
 
+            <!-- DAY 2 -->
             <div class="cream-card">
                 <div class="day-header"><h2 class="text-lg font-bold text-[#8A7A70]">DAY 2 <span class="text-xs ml-1">03/16 (一)</span></h2></div>
                 <div class="space-y-3 text-sm">
@@ -87,8 +123,20 @@
                     <p>🏘️ <strong>下午</strong> 北村韓屋村 ➔ 三清洞</p>
                     <p>🗼 <strong>晚上</strong> 【南山首爾塔】夜景</p>
                 </div>
+                <!-- 宵夜推薦 2 -->
+                <div class="supper-item">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-[11px] font-bold text-[#A68F80]"><i class="fa fa-moon mr-1"></i> 今日宵夜推薦</p>
+                            <p class="text-xs font-bold mt-1">孔陵一隻雞 (東大門)</p>
+                            <p class="text-[10px] text-gray-400">最後點餐 22:30，湯頭鮮甜</p>
+                        </div>
+                        <button onclick="triggerCall('孔陵一隻雞', '+82222696069')" class="text-[10px] text-blue-500 font-bold border border-blue-200 px-2 py-1 rounded">撥打</button>
+                    </div>
+                </div>
             </div>
 
+            <!-- DAY 3 -->
             <div class="cream-card">
                 <div class="day-header"><h2 class="text-lg font-bold text-[#8A7A70]">DAY 3 <span class="text-xs ml-1">03/17 (二)</span></h2></div>
                 <div class="space-y-3 text-sm">
@@ -96,8 +144,20 @@
                     <p>🎸 <strong>下午</strong> 【弘大商圈】逛街</p>
                     <p>🔥 <strong>晚餐</strong> 【小豬存錢筒】烤肉 <button onclick="triggerCall('小豬存錢筒', '+8223236292')" class="text-blue-500 underline text-[10px] ml-1">撥打</button></p>
                 </div>
+                <!-- 宵夜推薦 3 -->
+                <div class="supper-item">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-[11px] font-bold text-[#A68F80]"><i class="fa fa-moon mr-1"></i> 今日宵夜推薦</p>
+                            <p class="text-xs font-bold mt-1">東大門獵奇辣炒年糕</p>
+                            <p class="text-[10px] text-gray-400">營業至凌晨，辣度極高</p>
+                        </div>
+                        <button onclick="triggerCall('獵奇辣炒年糕', '+82222348591')" class="text-[10px] text-blue-500 font-bold border border-blue-200 px-2 py-1 rounded">撥打</button>
+                    </div>
+                </div>
             </div>
 
+            <!-- DAY 4 -->
             <div class="cream-card">
                 <div class="day-header"><h2 class="text-lg font-bold text-[#8A7A70]">DAY 4 <span class="text-xs ml-1">03/18 (三)</span></h2></div>
                 <div class="space-y-3 text-sm">
@@ -107,46 +167,13 @@
                 </div>
             </div>
 
+            <!-- DAY 5 -->
             <div class="cream-card">
                 <div class="day-header"><h2 class="text-lg font-bold text-[#8A7A70]">DAY 5 <span class="text-xs ml-1">03/19 (四)</span></h2></div>
                 <div class="space-y-3 text-sm">
                     <p>🎁 <strong>上午</strong> 【南大門市場】草莓乾</p>
                     <p>🍜 <strong>午餐</strong> 南大門刀削麵一條街</p>
                     <p>✈️ <strong>20:15</strong> 仁川起飛回台</p>
-                </div>
-            </div>
-
-            <!-- 宵夜推薦區塊 (手機版修正：確保位於滾動區內且底部有空間) -->
-            <div class="supper-box">
-                <h3 class="text-sm font-bold text-[#A68F80] mb-3"><i class="fa fa-moon mr-2"></i>深夜消夜推薦</h3>
-                <div class="space-y-4">
-                    <div class="border-b border-[#EBE3DB] pb-3">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-xs font-bold">橋村炸雞 (東大門1號店)</p>
-                                <p class="text-[10px] text-gray-400 mt-1">24小時營業，蜂蜜/大蒜口味推薦</p>
-                            </div>
-                            <button onclick="triggerCall('橋村炸雞', '+82222319337')" class="text-[10px] text-blue-500 font-bold">撥打</button>
-                        </div>
-                    </div>
-                    <div class="border-b border-[#EBE3DB] pb-3">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-xs font-bold">孔陵一隻雞 (東大門)</p>
-                                <p class="text-[10px] text-gray-400 mt-1">最後點餐 22:30，湯頭鮮甜</p>
-                            </div>
-                            <button onclick="triggerCall('孔陵一隻雞', '+82222696069')" class="text-[10px] text-blue-500 font-bold">撥打</button>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-xs font-bold">東大門獵奇辣炒年糕</p>
-                                <p class="text-[10px] text-gray-400 mt-1">營業至凌晨，辣度極高</p>
-                            </div>
-                            <button onclick="triggerCall('獵奇辣炒年糕', '+82222348591')" class="text-[10px] text-blue-500 font-bold">撥打</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -195,7 +222,6 @@
                     <p id="tError" class="hidden text-xs text-red-500 mt-2"></p>
                 </div>
             </div>
-
             <div class="cream-card">
                 <h3 class="text-sm font-bold mb-4">旅遊常用對話</h3>
                 <div class="space-y-4">
@@ -206,13 +232,6 @@
                             <button onclick="quickTranslate('請給我菜單。')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">請給我菜單</button>
                             <button onclick="quickTranslate('我不吃辣，謝謝。')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">不吃辣</button>
                             <button onclick="quickTranslate('請給我水。')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">請給我水</button>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="text-[10px] font-bold text-gray-400 mb-2 uppercase">Shopping 購物</p>
-                        <div class="flex flex-wrap gap-2">
-                            <button onclick="quickTranslate('請問可以退稅嗎？')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">可以退稅嗎？</button>
-                            <button onclick="quickTranslate('可以試穿嗎？')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">可以試穿嗎？</button>
                         </div>
                     </div>
                 </div>
@@ -264,7 +283,6 @@
         const apiKey = ""; 
         const RATE = 42.5;
 
-        // 通用 Gemini API 呼叫
         async function callGemini(prompt, system = "", isJson = false) {
             const maxRetries = 5;
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
@@ -298,7 +316,6 @@
             }
         }
 
-        // 天氣預報
         async function getAIWeather() {
             const display = document.getElementById('weatherDisplay');
             const loader = document.getElementById('weatherLoader');
@@ -311,7 +328,6 @@
             finally { loader.classList.add('hidden'); display.classList.remove('hidden'); }
         }
 
-        // 翻譯功能
         async function translateText() {
             const input = document.getElementById('translateInput').value.trim();
             if (!input) return;
@@ -338,7 +354,6 @@
             translateText();
         }
 
-        // 撥號邏輯
         function triggerCall(name, num) {
             document.getElementById('callName').innerText = name;
             document.getElementById('callNum').innerText = num;
@@ -347,7 +362,6 @@
         }
         function closeCallModal() { document.getElementById('callModal').style.display = 'none'; }
 
-        // 記帳系統
         let expenses = JSON.parse(localStorage.getItem('seoul_v15_exp')) || [];
         function updateExpUI() {
             const list = document.getElementById('expList'); list.innerHTML = '';
@@ -377,7 +391,6 @@
             document.getElementById('twdResult').value = v ? '≈ NT$ ' + Math.round(v/RATE).toLocaleString() : '';
         }
 
-        // 清單系統
         let prep = JSON.parse(localStorage.getItem('seoul_v15_prep')) || [
             {t: "護照與 K-ETA", c: true}, {t: "WOWPASS 卡", c: false}, {t: "220V 轉接頭", c: false}
         ];
@@ -394,13 +407,12 @@
         function tp(i){ prep[i].c = !prep[i].c; updatePrepUI(); }
         function addPrep(){ const v = document.getElementById('newPrep').value; if(v){prep.push({t:v,c:false}); document.getElementById('newPrep').value=''; updatePrepUI();}}
 
-        // 分頁切換
         function switchTab(id, el) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active-content'));
             document.getElementById(id).classList.add('active-content');
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-tab'));
             el.classList.add('active-tab');
-            document.getElementById('mainScroll').scrollTop = 0; // 切換時回到頂部
+            document.getElementById('mainScroll').scrollTop = 0;
         }
 
         window.onload = () => { updateExpUI(); updatePrepUI(); getAIWeather(); };
