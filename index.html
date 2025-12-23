@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>首爾旅遊攻略 V15 - 2026春季版</title>
+    <title>首爾旅遊攻略 V15.3 - 手機版優化</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,16 +11,34 @@
         :root { --safe-top: env(safe-area-inset-top); --safe-bottom: env(safe-area-inset-bottom); --primary-brown: #A68F80; }
         body { font-family: 'Noto Sans TC', sans-serif; background-color: #FDFBF9; color: #5D4E46; margin: 0; padding: 0; overflow: hidden; }
         header { padding-top: calc(1rem + var(--safe-top)); background: #EBE3DB; border-bottom: 1px solid #D9CFC7; text-align: center; padding-bottom: 1rem; }
-        .main-scroll-area { height: calc(100vh - 160px - var(--safe-top) - var(--safe-bottom)); overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 1rem; padding-bottom: 100px; }
+        
+        /* 修正手機版滾動區域，增加底部邊距避免導覽列遮擋 */
+        .main-scroll-area { 
+            height: calc(100vh - 80px - var(--safe-top) - var(--safe-bottom)); 
+            overflow-y: auto; 
+            -webkit-overflow-scrolling: touch; 
+            padding: 1rem; 
+            padding-bottom: 140px; /* 這裡增加邊距 */
+        }
+        
+        /* 隱藏滾動條但保留功能 */
+        .main-scroll-area::-webkit-scrollbar { display: none; }
+
         .tab-content { display: none; }
         .active-content { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
         .active-tab { color: #8A7A70 !important; border-bottom: 2px solid var(--primary-brown); }
         .cream-card { background: white; border: 1px solid #EBE3DB; border-radius: 1.25rem; padding: 1.25rem; box-shadow: 0 4px 12px rgba(232, 222, 213, 0.05); margin-bottom: 1rem; }
         .day-header { border-left: 4px solid var(--primary-brown); padding-left: 12px; margin-bottom: 15px; }
-        .supper-box { background-color: #FAF7F2; border: 1px dashed #D9CFC7; border-radius: 1rem; padding: 1rem; margin-top: 1rem; }
+        
+        /* 宵夜推薦區塊樣式 */
+        .supper-box { background-color: #FAF7F2; border: 1px dashed #D9CFC7; border-radius: 1rem; padding: 1rem; margin-top: 1rem; margin-bottom: 2rem; }
+        
         .btn-milk-tea { background-color: var(--primary-brown); color: white; border-radius: 0.75rem; }
         #callModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
+        
+        /* 加載動畫 */
         .dot-flashing { position: relative; width: 6px; height: 6px; border-radius: 5px; background-color: var(--primary-brown); animation: dot-flashing 1s infinite linear alternate; animation-delay: .5s; }
         .dot-flashing::before, .dot-flashing::after { content: ''; display: inline-block; position: absolute; top: 0; }
         .dot-flashing::before { left: -12px; width: 6px; height: 6px; border-radius: 5px; background-color: var(--primary-brown); animation: dot-flashing 1s infinite alternate; animation-delay: 0s; }
@@ -50,7 +68,7 @@
                 <div id="weatherDisplay" class="text-[11px] text-blue-800 leading-relaxed">正在分析 2026/03 天氣概況...</div>
             </div>
 
-            <!-- DAY 1-5 行程 -->
+            <!-- DAY 1-5 行程內容 -->
             <div class="cream-card">
                 <div class="day-header"><h2 class="text-lg font-bold text-[#8A7A70]">DAY 1 <span class="text-xs ml-1">03/15 (日)</span></h2></div>
                 <div class="space-y-3 text-sm">
@@ -98,7 +116,7 @@
                 </div>
             </div>
 
-            <!-- 宵夜推薦區塊 -->
+            <!-- 宵夜推薦區塊 (手機版修正：確保位於滾動區內且底部有空間) -->
             <div class="supper-box">
                 <h3 class="text-sm font-bold text-[#A68F80] mb-3"><i class="fa fa-moon mr-2"></i>深夜消夜推薦</h3>
                 <div class="space-y-4">
@@ -124,7 +142,7 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-xs font-bold">東大門獵奇辣炒年糕</p>
-                                <p class="text-[10px] text-gray-400 mt-1">營業至凌晨，辣度極高請小心</p>
+                                <p class="text-[10px] text-gray-400 mt-1">營業至凌晨，辣度極高</p>
                             </div>
                             <button onclick="triggerCall('獵奇辣炒年糕', '+82222348591')" class="text-[10px] text-blue-500 font-bold">撥打</button>
                         </div>
@@ -162,27 +180,27 @@
             </div>
         </div>
 
-        <!-- TAB 3: AI助理 (翻譯與常用語) -->
+        <!-- TAB 3: AI助理 -->
         <div id="help" class="tab-content space-y-4">
             <div class="cream-card bg-[#F2EDE9] border-none">
                 <h3 class="text-sm font-bold mb-3"><i class="fa fa-robot mr-2 text-blue-500"></i> AI 韓語溝通</h3>
-                <textarea id="translateInput" rows="2" placeholder="例如：這多少錢？可以退稅嗎？" class="w-full text-xs border p-3 rounded-xl outline-none mb-3 resize-none"></textarea>
+                <textarea id="translateInput" rows="2" placeholder="輸入想問的話..." class="w-full text-xs border p-3 rounded-xl outline-none mb-3 resize-none"></textarea>
                 <button onclick="translateText()" class="w-full btn-milk-tea p-3 text-sm font-bold">立即翻譯</button>
-                <div id="translateResult" class="hidden mt-4 p-4 bg-white rounded-2xl shadow-sm">
+                <div id="translateResult" class="hidden mt-4 p-4 bg-white rounded-2xl shadow-sm text-center">
                     <div id="tLoader" class="hidden flex justify-center py-4"><div class="dot-flashing"></div></div>
                     <div id="tContent">
                         <p id="koreanText" class="text-xl font-bold text-blue-900"></p>
                         <p id="pinyinText" class="text-xs text-blue-500 italic mt-1"></p>
                     </div>
-                    <p id="tError" class="hidden text-xs text-red-500 mt-2 text-center"></p>
+                    <p id="tError" class="hidden text-xs text-red-500 mt-2"></p>
                 </div>
             </div>
 
             <div class="cream-card">
-                <h3 class="text-sm font-bold mb-4 flex items-center"><i class="fa fa-comments mr-2 text-orange-400"></i> 旅遊常用對話</h3>
+                <h3 class="text-sm font-bold mb-4">旅遊常用對話</h3>
                 <div class="space-y-4">
                     <div>
-                        <p class="text-[10px] font-bold text-gray-400 mb-2">🍽️ 餐廳與飲食</p>
+                        <p class="text-[10px] font-bold text-gray-400 mb-2 uppercase">Dining 餐廳</p>
                         <div class="flex flex-wrap gap-2">
                             <button onclick="quickTranslate('請問這多少錢？')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">多少錢？</button>
                             <button onclick="quickTranslate('請給我菜單。')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">請給我菜單</button>
@@ -191,17 +209,10 @@
                         </div>
                     </div>
                     <div>
-                        <p class="text-[10px] font-bold text-gray-400 mb-2">🛍️ 購物與退稅</p>
+                        <p class="text-[10px] font-bold text-gray-400 mb-2 uppercase">Shopping 購物</p>
                         <div class="flex flex-wrap gap-2">
                             <button onclick="quickTranslate('請問可以退稅嗎？')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">可以退稅嗎？</button>
                             <button onclick="quickTranslate('可以試穿嗎？')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">可以試穿嗎？</button>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="text-[10px] font-bold text-gray-400 mb-2">🏨 交通與飯店</p>
-                        <div class="flex flex-wrap gap-2">
-                            <button onclick="quickTranslate('請問洗手間在哪裡？')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">洗手間在哪？</button>
-                            <button onclick="quickTranslate('我要辦理入住手續。')" class="text-[10px] bg-gray-100 px-3 py-2 rounded-lg">辦理入住</button>
                         </div>
                     </div>
                 </div>
@@ -211,10 +222,10 @@
         <!-- TAB 4: 清單 -->
         <div id="prep" class="tab-content">
             <div class="cream-card">
-                <h3 class="text-sm font-bold mb-4">行前 Check</h3>
+                <h3 class="text-sm font-bold mb-4">行前清單</h3>
                 <div id="checkList" class="space-y-2"></div>
                 <div class="mt-4 flex gap-2">
-                    <input type="text" id="newPrep" placeholder="新增..." class="flex-1 text-xs border p-3 rounded-lg">
+                    <input type="text" id="newPrep" placeholder="新增清單..." class="flex-1 text-xs border p-3 rounded-lg">
                     <button onclick="addPrep()" class="btn-milk-tea px-4"><i class="fa fa-plus"></i></button>
                 </div>
             </div>
@@ -233,6 +244,7 @@
         </div>
     </div>
 
+    <!-- 底部導覽列 -->
     <nav class="fixed bottom-0 max-w-md w-full bg-white border-t py-3 flex justify-around items-center z-50">
         <button onclick="switchTab('itinerary', this)" class="flex flex-col items-center gap-1 active-tab text-[#BCAC9B]">
             <i class="fa fa-map-marked-alt text-lg"></i><span class="text-[9px] font-bold">行程</span>
@@ -252,6 +264,7 @@
         const apiKey = ""; 
         const RATE = 42.5;
 
+        // 通用 Gemini API 呼叫
         async function callGemini(prompt, system = "", isJson = false) {
             const maxRetries = 5;
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
@@ -264,10 +277,7 @@
                     responseMimeType: "application/json",
                     responseSchema: {
                         type: "OBJECT",
-                        properties: {
-                            korean: { type: "STRING" },
-                            pinyin: { type: "STRING" }
-                        }
+                        properties: { korean: { type: "STRING" }, pinyin: { type: "STRING" } }
                     }
                 };
             }
@@ -288,6 +298,7 @@
             }
         }
 
+        // 天氣預報
         async function getAIWeather() {
             const display = document.getElementById('weatherDisplay');
             const loader = document.getElementById('weatherLoader');
@@ -300,6 +311,7 @@
             finally { loader.classList.add('hidden'); display.classList.remove('hidden'); }
         }
 
+        // 翻譯功能
         async function translateText() {
             const input = document.getElementById('translateInput').value.trim();
             if (!input) return;
@@ -316,7 +328,7 @@
                 loader.classList.add('hidden'); content.classList.remove('hidden');
             } catch (e) {
                 loader.classList.add('hidden');
-                errorLabel.innerText = "翻譯服務暫時不可用。";
+                errorLabel.innerText = "服務忙碌，請稍後再試。";
                 errorLabel.classList.remove('hidden');
             }
         }
@@ -326,6 +338,7 @@
             translateText();
         }
 
+        // 撥號邏輯
         function triggerCall(name, num) {
             document.getElementById('callName').innerText = name;
             document.getElementById('callNum').innerText = num;
@@ -334,7 +347,7 @@
         }
         function closeCallModal() { document.getElementById('callModal').style.display = 'none'; }
 
-        // 記帳與清單系統
+        // 記帳系統
         let expenses = JSON.parse(localStorage.getItem('seoul_v15_exp')) || [];
         function updateExpUI() {
             const list = document.getElementById('expList'); list.innerHTML = '';
@@ -342,7 +355,7 @@
             expenses.forEach((exp, i) => {
                 const div = document.createElement('div');
                 div.className = "flex justify-between text-xs p-2 border-b items-center";
-                div.innerHTML = `<span class="text-gray-600">${exp.note}</span><span>₩${parseInt(exp.amt).toLocaleString()} <button onclick="removeExp(${i})" class="ml-2 text-red-300">×</button></span>`;
+                div.innerHTML = `<span>${exp.note}</span><span>₩${parseInt(exp.amt).toLocaleString()} <button onclick="removeExp(${i})" class="ml-2 text-red-300">×</button></span>`;
                 list.appendChild(div);
                 total += parseInt(exp.amt);
             });
@@ -364,6 +377,7 @@
             document.getElementById('twdResult').value = v ? '≈ NT$ ' + Math.round(v/RATE).toLocaleString() : '';
         }
 
+        // 清單系統
         let prep = JSON.parse(localStorage.getItem('seoul_v15_prep')) || [
             {t: "護照與 K-ETA", c: true}, {t: "WOWPASS 卡", c: false}, {t: "220V 轉接頭", c: false}
         ];
@@ -380,11 +394,13 @@
         function tp(i){ prep[i].c = !prep[i].c; updatePrepUI(); }
         function addPrep(){ const v = document.getElementById('newPrep').value; if(v){prep.push({t:v,c:false}); document.getElementById('newPrep').value=''; updatePrepUI();}}
 
+        // 分頁切換
         function switchTab(id, el) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active-content'));
             document.getElementById(id).classList.add('active-content');
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-tab'));
             el.classList.add('active-tab');
+            document.getElementById('mainScroll').scrollTop = 0; // 切換時回到頂部
         }
 
         window.onload = () => { updateExpUI(); updatePrepUI(); getAIWeather(); };
